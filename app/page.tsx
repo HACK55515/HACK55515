@@ -6,10 +6,10 @@ import { AudioLines, ChevronRight, FileAudio, Heart, Home, Library, ListMusic, P
 type Track = { title: string; artist: string; album: string; color: string; image: string; url?: string; duration?: number }
 
 const starterTracks: Track[] = [
-  { title: "Afterglow Protocol", artist: "Z3R0", album: "Neon Expanse", color: "#6845c7", image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80", duration: 228 },
-  { title: "Static Hearts", artist: "Mira Vale", album: "Signal Bloom", color: "#e56389", image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80", duration: 202 },
-  { title: "Zero Gravity", artist: "Kairo", album: "Orbital", color: "#2c8c9b", image: "https://images.unsplash.com/photo-1534791547706-9c0cbd5f8f4e?auto=format&fit=crop&w=700&q=80", duration: 241 },
-  { title: "Midnight Frequency", artist: "NOVA/9", album: "Dark Matter", color: "#bb4b35", image: "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=700&q=80", duration: 198 },
+  { title: "Afterglow Protocol", artist: "Z3R0", album: "Neon Expanse", color: "#6845c7", image: "/z3ro-logo.jpg", duration: 228 },
+  { title: "Static Hearts", artist: "Mira Vale", album: "Signal Bloom", color: "#e56389", image: "/z3ro-logo.jpg", duration: 202 },
+  { title: "Zero Gravity", artist: "Kairo", album: "Orbital", color: "#2c8c9b", image: "/z3ro-logo.jpg", duration: 241 },
+  { title: "Midnight Frequency", artist: "NOVA/9", album: "Dark Matter", color: "#bb4b35", image: "/z3ro-logo.jpg", duration: 198 },
 ]
 
 const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`
