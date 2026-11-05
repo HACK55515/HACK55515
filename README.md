@@ -2,6 +2,8 @@
 And you chose us! 
 Get ready for takeoff!
 
+![Animated GIF](https://github.com/user-attachments/assets/198c2241-1154-4475-8b75-5d40a9c46ce4.gif)
+
 <!--
 **HACK55515/HACK55515** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
