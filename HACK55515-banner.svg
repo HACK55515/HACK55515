@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg 
+  xmlns="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  viewBox="0 0 1200 450" 
+  width="1200" 
+  height="450" 
+  preserveAspectRatio="xMidYMid slice"
+  role="img" 
+  aria-label="HACK55515 Terminal Dashboard: Coding quadrants with matrix rain, hex dump, error alerts, and glitch logo.">
+  
+  <!-- ============================================================
+       🎨 DEFINITIONS: Gradients, Filters, Fonts, CSS Keyframes
+       ============================================================ -->
+  <defs>
+    <!-- Fonts (GitHub supports WOFF2 base64 embed, but we use generic mono fallback for reliability) -->
+    <!-- If you want a specific font (e.g., 'JetBrains Mono'), host the .woff2 and base64 encode it here. -->
+    
+    <!-- Color Palette -->
+    <style type="text/css"><![CDATA[
+      /* CSS Variables for Theming */
+      :root { --bg:#0d1117; --fg:#e6edf3; --accent:#58a6ff; --green:#3fb950; --red:#f85149; --yellow:#d29922; --purple:#a371f7; --cyan:#39c5cf; --gray:#484f58; --border:#30363d; --scan:rgba(0,0,0,0.15); }
+      
+      /* Global Mono Font Stack */
+      text { font-family: 'JetBrains Mono', 'Fira Code', 'Monospace', monospace; dominant-baseline: hanging; }
+      
+      /* Scanline Overlay */
+      .scanlines { fill: url(#scanlinePattern); opacity: 0.08; pointer-events: none; }
+      
+      /* CRT Flicker */
+      @keyframes flicker { 0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; } 20%,22%,24%,55% { opacity: 0.92; } }
+      .crt-flicker { animation: flicker 4s infinite steps(1); transform-origin: center; }
+      
+      /* Glitch RGB Split */
+      @keyframes glitch-split { 
+        0%, 90%, 93%, 96%, 100% { transform: translate(0,0); text-shadow: 0 0 0 transparent; } 
+        91% { transform: translate(-1px, 0); text-shadow: 2px 0 0 var(--red), -2px 0 0 var(--cyan); } 
+        94% { transform: translate(1px, -1px); text-shadow: -1px 0 0 var(--cyan), 1px 0 0 var(--red); } 
+        97% { transform: translate(-1px, 1px); text-shadow: 1px 0 0 var(--red), -1px 0 0 var(--cyan); } 
+      }
+      .glitch-logo { animation: glitch-split 3s infinite ease-in-out; }
+      
+      /* Cursor Blink */
+      @keyframes blink { 50% { opacity: 0; } }
+      .cursor { animation: blink 1s step-end infinite; }
+      
+      /* Typing Effect (Width based) */
+      @keyframes type { from { width: 0; } to { width: 100%; } }
+      .typing { overflow: hidden; white-space: nowrap; animation: type 3s steps(40, end) forwards, blink 0.75s step-end infinite; }
+      
+      /* Hex Scroll */
+      @keyframes hex-scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+      .hex-scroll { animation: hex-scroll 8s linear infinite; }
+      
+      /* Matrix Rain */
+      @keyframes matrix-fall { 0% { transform: translateY(-120%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(120%); opacity: 0; } }
+      .matrix-char { animation: matrix-fall linear infinite; }
+      
+      /* Error Flash */
+      @keyframes error-flash { 0%, 100% { fill: var(--red); opacity: 1; } 50% { fill: var(--bg); opacity: 0.8; stroke: var(--red); stroke-width: 1.5; } }
+      .error-flash { animation: error-flash 0.8s infinite; }
+      
+      /* Button Hover (Simulated via animation) */
+      @keyframes btn-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+      .btn-close { animation: btn-pulse 2s infinite; fill: var(--red); }
+      .btn-min { animation: btn-pulse 2s 0.3s infinite; fill: var(--yellow); }
+      .btn-max { animation: btn-pulse 2s 0.6s infinite; fill: var(--green); }
+      
+      /* Boot Sequence Text Reveal */
+      @keyframes boot-line { 0% { opacity: 0; transform: translateX(-20px); } 100% { opacity: 1; transform: translateX(0); } }
+      .boot-line { opacity: 0; animation: boot-line 0.3s ease-out forwards; }
+    ]]></style>
+
+    <!-- Scanline Pattern -->
+    <pattern id="scanlinePattern" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="4" y2="0" stroke="black" stroke-width="1"/>
+    </pattern>
+    
+    <!-- Glitch Filter (Turbulence) -->
+    <filter id="glitchFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise">
+        <animate attributeName="baseFrequency" values="0.02;0.05;0.02" dur="4s" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    
+    <!-- Glow Filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Logo Gradient -->
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#58a6ff"/><stop offset="50%" stop-color="#a371f7"/><stop offset="100%" stop-color="#39c5cf"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b6b"/><stop offset="100%" stop-color="#f85149"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ============================================================
+       🖼️ BACKGROUND & CRT OVERLAY
+       ============================================================ -->
+  <rect width="100%" height="100%" fill="var(--bg)"/>
+  <!-- Subtle Grid BG -->
+  <g opacity="0.03">
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--fg)" stroke-width="0.5"/>
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#grid)"/>
+  </g>
+  <!-- Scanlines -->
+  <rect class="scanlines" width="100%" height="100%"/>
+  <!-- CRT Vignette -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+    <stop offset="0%" stop-color="transparent"/><stop offset="70%" stop-color="transparent"/><stop offset="100%" stop-color="var(--bg)" stop-opacity="0.4"/>
+  </radialGradient>
+  <rect width="100%" height="100%" fill="url(#vignette)" pointer-events="none"/>
+
+  <!-- ============================================================
+       🪟 WINDOW CHROME TEMPLATE (Reused via <use>)
+       ============================================================ -->
+  <g id="windowChrome">
+    <!-- Title Bar -->
+    <rect x="0" y="0" width="590" height="32" rx="6" ry="6" fill="var(--border)" stroke="var(--border)"/>
+    <rect x="0" y="0" width="590" height="32" fill="transparent" stroke="var(--border)"/>
+    <!-- Traffic Lights -->
+    <circle class="btn-close" cx="14" cy="16" r="6"/>
+    <circle class="btn-min" cx="32" cy="16" r="6"/>
+    <circle class="btn-max" cx="50" cy="16" r="6"/>
+    <!-- Title Text -->
+    <text x="70" y="6" font-size="11" fill="var(--gray)" font-weight="500">terminal</text>
+    <!-- Content Area BG -->
+    <rect x="0" y="32" width="590" height="193" fill="var(--bg)" stroke="var(--border)" stroke-width="1" rx="0 0 6 6"/>
+    <!-- Inner Padding Clip Path -->
+    <clipPath id="contentClip"><rect x="8" y="40" width="574" height="177"/></clipPath>
+  </g>
+
+  <!-- ============================================================
+       📐 QUADRANT 1: TOP-LEFT - CODE EDITOR (main.go)
+       ============================================================ -->
+  <g transform="translate(10, 10)">
+    <use href="#windowChrome"/>
+    <text x="70" y="6" font-size="11" fill="var(--gray)">main.go *</text>
+    
+    <g clip-path="url(#contentClip)">
+      <!-- Line Numbers -->
+      <g font-size="12" fill="var(--gray)" font-variant-numeric="tabular-nums" text-anchor="end">
+        <text x="30" y="44">1</text><text x="30" y="62">2</text><text x="30" y="80">3</text>
+        <text x="30" y="98">4</text><text x="30" y="116">5</text><text x="30" y="134">6</text>
+        <text x="30" y="152">7</text><text x="30" y="170">8</text><text x="30" y="188">9</text>
+      </g>
+      <!-- Code Lines (Typing Animation) -->
+      <g font-size="12" font-family="monospace" x="40">
+        <text y="44" fill="var(--purple)">package</text><text x="110" fill="var(--fg)"> main</text>
+        <text y="62" fill="var(--fg)">import (</text>
+        <text y="80" fill="var(--yellow)">    "fmt"</text>
+        <text y="98" fill="var(--fg)">)</text>
+        <text y="116" fill="var(--purple)">func</text><text x="75" fill="var(--fg)"> main() {</text>
+        <text y="134" fill="var(--accent)">    fmt.Print</text><text x="150" fill="var(--yellow)">("HACK55515")</text>
+        <text y="152" fill="var(--green)">    // z3ro_trust</text>
+        <text y="170" fill="var(--fg)">}</text>
+        <!-- Blinking Cursor on Line 7 -->
+        <text class="cursor" y="134" x="140" fill="var(--accent)">█</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============================================================
+       📐 QUADRANT 2: TOP-RIGHT - ERROR / HEX DUMP (madhex)
+       ============================================================ -->
+  <g transform="translate(610, 10)">
+    <use href="#windowChrome"/>
+    <text x="70" y="6" font-size="11" fill="var(--red)">debug.log [!]</text>
+    
+    <g clip-path="url(#contentClip)">
+      <!-- RED EXCLAMATION ERROR FLASH -->
+      <g transform="translate(10, 44)">
+        <circle class="error-flash" cx="10" cy="10" r="10"/>
+        <text x="28" y="0" font-size="14" fill="var(--red)" font-weight="bold" class="error-flash">!</text>
+        <text x="50" y="2" font-size="12" fill="var(--fg)">CRITICAL: z3ro error @ 0xDEADBEEF</text>
+        <text x="50" y="20" font-size="11" fill="var(--gray)">panic: runtime error: invalid memory address</text>
+        <text x="50" y="38" font-size="11" fill="var(--gray)">goroutine 1 [running]: main.main()</text>
+      </g>
+
+      <!-- MADHEX DUMP (Scrolling) -->
+      <g class="hex-scroll" transform="translate(10, 80)" font-size="11" font-variant-numeric="tabular-nums">
+        <text x="0" y="0" fill="var(--gray)">0x0000:</text>
+        <text x="60" y="0" fill="var(--cyan)">DE AD BE EF</text>
+        <text x="150" y="0" fill="var(--fg)">....</text>
+        
+        <!-- Generated Hex Lines (Looping) -->
+        <g id="hexLines">
+          <text x="0" y="18" fill="var(--gray)">0x0010:</text><text x="60" y="18" fill="var(--cyan)">CA FE BA BE</text><text x="150" y="18" fill="var(--fg)">....</text>
+          <text x="0" y="36" fill="var(--gray)">0x0020:</text><text x="60" y="36" fill="var(--cyan)">FE ED FA CE</text><text x="150" y="36" fill="var(--fg)">....</text>
+          <text x="0" y="54" fill="var(--gray)">0x0030:</text><text x="60" y="54" fill="var(--cyan)">BA 5E BA 11</text><text x="150" y="54" fill="var(--fg)">.^..</text>
+          <text x="0" y="72" fill="var(--gray)">0x0040:</text><text x="60" y="72" fill="var(--red)">FF FF FF FF</text><text x="150" y="72" fill="var(--fg)">....</text>
+          <text x="0" y="90" fill="var(--gray)">0x0050:</text><text x="60" y="90" fill="var(--purple)">MA D H E X</text><text x="150" y="90" fill="var(--fg)">MADHEX</text>
+          <text x="0" y="108" fill="var(--gray)">0x0060:</text><text x="60" y="108" fill="var(--cyan)">00 00 00 00</text><text x="150" y="108" fill="var(--fg)">....</text>
+          <text x="0" y="126" fill="var(--gray)">0x0070:</text><text x="60" y="126" fill="var(--cyan)">00 00 00 00</text><text x="150" y="126" fill="var(--fg)">....</text>
+          <!-- Duplicate first 4 lines for seamless loop -->
+          <text x="0" y="144" fill="var(--gray)">0x0010:</text><text x="60" y="144" fill="var(--cyan)">CA FE BA BE</text><text x="150" y="144" fill="var(--fg)">....</text>
+          <text x="0" y="162" fill="var(--gray)">0x0020:</text><text x="60" y="162" fill="var(--cyan)">FE ED FA CE</text><text x="150" y="162" fill="var(--fg)">....</text>
+          <text x="0" y="180" fill="var(--gray)">0x0030:</text><text x="60" y="180" fill="var(--cyan)">BA 5E BA 11</text><text x="150" y="180" fill="var(--fg)">.^..</text>
+          <text x="0" y="198" fill="var(--gray)">0x0040:</text><text x="60" y="198" fill="var(--red)">FF FF FF FF</text><text x="150" y="198" fill="var(--fg)">....</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============================================================
+       📐 QUADRANT 3: BOTTOM-LEFT - MATRIX RAIN (matrix.sh)
+       ============================================================ -->
+  <g transform="translate(10, 235)">
+    <use href="#windowChrome"/>
+    <text x="70" y="6" font-size="11" fill="var(--green)">matrix.sh</text>
+    
+    <g clip-path="url(#contentClip)">
+      <!-- Falling Characters -->
+      <g font-size="13" fill="var(--green)" text-anchor="middle" font-family="monospace">
+        <!-- Column 1 -->
+        <text class="matrix-char" x="30" y="0" style="animation-duration: 6s; animation-delay: 0s;">カ</text>
+        <text class="matrix-char" x="30" y="0" style="animation-duration: 8s; animation-delay: -2s;">ミ</text>
+        <text class="matrix-char" x="30" y="0" style="animation-duration: 7s; animation-delay: -4s;">ロ</text>
+        <!-- Column 2 -->
+        <text class="matrix-char" x="60" y="0" style="animation-duration: 5s; animation-delay: -1s;">0</text>
+        <text class="matrix-char" x="60" y="0" style="animation-duration: 9s; animation-delay: -3s;">1</text>
+        <text class="matrix-char" x="60" y="0" style="animation-duration: 6s; animation-delay: -5s;">0</text>
+        <!-- Column 3 -->
+        <text class="matrix-char" x="90" y="0" style="animation-duration: 7s; animation-delay: -0.5s;">ア</text>
+        <text class="matrix-char" x="90" y="0" style="animation-duration: 5s; animation-delay: -2.5s;">イ</text>
+        <!-- Column 4 -->
+        <text class="matrix-char" x="120" y="0" style="animation-duration: 8s; animation-delay: -1.5s;">█</text>
+        <text class="matrix-char" x="120" y="0" style="animation-duration: 6s; animation-delay: -4.5s;">▓</text>
+        <!-- Column 5 -->
+        <text class="matrix-char" x="150" y="0" style="animation-duration: 9s; animation-delay: -2s;">ネ</text>
+        <text class="matrix-char" x="150" y="0" style="animation-duration: 7s; animation-delay: -5s;">コ</text>
+        <!-- Column 6 -->
+        <text class="matrix-char" x="180" y="0" style="animation-duration: 5s; animation-delay: -0.8s;">1</text>
+        <text class="matrix-char" x="180" y="0" style="animation-duration: 8s; animation-delay: -3s;">0</text>
+        <!-- Column 7 -->
+        <text class="matrix-char" x="210" y="0" style="animation-duration: 6s; animation-delay: -1.2s;">ソ</text>
+        <text class="matrix-char" x="210" y="0" style="animation-duration: 7s; animation-delay: -4s;">タ</text>
+        <!-- Column 8 -->
+        <text class="matrix-char" x="240" y="0" style="animation-duration: 8s; animation-delay: -2.2s;">░</text>
+        <text class="matrix-char" x="240" y="0" style="animation-duration: 5s; animation-delay: -5s;">▒</text>
+        <!-- Column 9 -->
+        <text class="matrix-char" x="270" y="0" style="animation-duration: 7s; animation-delay: -0.3s;">ツ</text>
+        <text class="matrix-char" x="270" y="0" style="animation-duration: 9s; animation-delay: -3.5s;">ン</text>
+        <!-- Column 10 -->
+        <text class="matrix-char" x="300" y="0" style="animation-duration: 6s; animation-delay: -1.8s;">0</text>
+        <text class="matrix-char" x="300" y="0" style="animation-duration: 8s; animation-delay: -4.8s;">1</text>
+        <!-- Column 11 -->
+        <text class="matrix-char" x="330" y="0" style="animation-duration: 5s; animation-delay: -2.8s;">シ</text>
+        <text class="matrix-char" x="330" y="0" style="animation-duration: 7s; animation-delay: -5.5s;">ン</text>
+        <!-- Column 12 -->
+        <text class="matrix-char" x="360" y="0" style="animation-duration: 8s; animation-delay: -1s;">█</text>
+        <text class="matrix-char" x="360" y="0" style="animation-duration: 6s; animation-delay: -4s;">▓</text>
+        <!-- Column 13 -->
+        <text class="matrix-char" x="390" y="0" style="animation-duration: 7s; animation-delay: -0.7s;">マ</text>
+        <text class="matrix-char" x="390" y="0" style="animation-duration: 9s; animation-delay: -3s;">ト</text>
+        <!-- Column 14 -->
+        <text class="matrix-char" x="420" y="0" style="animation-duration: 5s; animation-delay: -2s;">1</text>
+        <text class="matrix-char" x="420" y="0" style="animation-duration: 8s; animation-delay: -5s;">0</text>
+        <!-- Column 15 -->
+        <text class="matrix-char" x="450" y="0" style="animation-duration: 6s; animation-delay: -1.5s;">レ</text>
+        <text class="matrix-char" x="450" y="0" style="animation-duration: 7s; animation-delay: -4.5s;">ス</text>
+        <!-- Column 16 -->
+        <text class="matrix-char" x="480" y="0" style="animation-duration: 8s; animation-delay: -0.2s;">░</text>
+        <text class="matrix-char" x="480" y="0" style="animation-duration: 5s; animation-delay: -3.8s;">▒</text>
+        <!-- Column 17 -->
+        <text class="matrix-char" x="510" y="0" style="animation-duration: 7s; animation-delay: -2.5s;">フ</text>
+        <text class="matrix-char" x="510" y="0" style="animation-duration: 9s; animation-delay: -5.2s;">ク</text>
+        <!-- Column 18 -->
+        <text class="matrix-char" x="540" y="0" style="animation-duration: 5s; animation-delay: -1.1s;">0</text>
+        <text class="matrix-char" x="540" y="0" style="animation-duration: 8s; animation-delay: -4.1s;">1</text>
+      </g>
+      <!-- Status Bar Bottom -->
+      <text x="10" y="185" font-size="10" fill="var(--gray)">[Matrix v3.0] Rain density: 99% | Process: HACK55515</text>
+    </g>
+  </g>
+
+  <!-- ============================================================
+       📐 QUADRANT 4: BOTTOM-RIGHT - CENTERPIECE LOGO (HACK55515)
+       ============================================================ -->
+  <g transform="translate(610, 235)" class="crt-flicker">
+    <use href="#windowChrome"/>
+    <text x="70" y="6" font-size="11" fill="var(--accent)">banner.out</text>
+    
+    <g clip-path="url(#contentClip)">
+      <!-- Centered Logo Container -->
+      <g transform="translate(295, 110)" text-anchor="middle">
+        <!-- Main Logo Text -->
+        <text 
+          x="0" y="0" 
+          font-size="48" 
+          font-weight="800" 
+          fill="url(#logoGrad)" 
+          class="glitch-logo"
+          filter="url(#glow)"
+          style="font-family: 'JetBrains Mono', 'Monospace'; letter-spacing: 2px;">
+          HACK55515
+        </text>
+        
+        <!-- RGB Split Glitch Layer (SMIL for GitHub Img compatibility) -->
+        <text 
+          x="0" y="0" 
+          font-size="48" 
+          font-weight="800" 
+          fill="var(--red)" 
+          opacity="0.6"
+          style="font-family: 'JetBrains Mono', 'Monospace'; letter-spacing: 2px;">
+          <animate attributeName="x" values="0;-2;0;2;0" dur="0.1s" repeatCount="indefinite" begin="2s;4s;6s;8s;10s;12s;14s;16s;18s;20s" />
+          HACK55515
+        </text>
+        <text 
+          x="0" y="0" 
+          font-size="48" 
+          font-weight="800" 
+          fill="var(--cyan)" 
+          opacity="0.6"
+          style="font-family: 'JetBrains Mono', 'Monospace'; letter-spacing: 2px;">
+          <animate attributeName="x" values="0;2;0;-2;0" dur="0.1s" repeatCount="indefinite" begin="2.05s;4.05s;6.05s;8.05s;10.05s;12.05s;14.05s;16.05s;18.05s;20.05s" />
+          HACK55515
+        </text>
+      </g>
+
+      <!-- Boot Sequence Lines (Staggered Reveal) -->
+      <g font-size="11" fill="var(--fg)" font-family="monospace" x="20" class="boot-lines">
+        <text class="boot-line" y="170" style="animation-delay: 0.5s;">> INITIALIZING NEURAL INTERFACE...</text>
+        <text class="boot-line" y="188" style="animation-delay: 0.8s;">> LOADING PAYLOAD: [madhex.dll]</text>
+        <text class="boot-line" y="206" style="animation-delay: 1.1s;">> BYPASSING z3ro CHECKS... <tspan fill="var(--green)">OK</tspan></text>
+        <text class="boot-line" y="224" style="animation-delay: 1.4s;">> INJECTING MATRIX GLYPHS... <tspan fill="var(--cyan)">DONE</tspan></text>
+        <text class="boot-line" y="242" style="animation-delay: 1.7s;">> SYSTEM ONLINE. WELCOME, <tspan fill="url(#logoGrad)" font-weight="bold">HACK55515</tspan>.</text>
+      </g>
+      
+      <!-- Bottom Status -->
+      <text x="10" y="255" font-size="10" fill="var(--gray)">User: root | Shell: /bin/bash | Uptime: ∞</text>
+    </g>
+  </g>
+
+</svg>
